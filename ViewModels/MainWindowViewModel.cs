@@ -5,7 +5,6 @@ using System.Collections.ObjectModel;
 using System.Windows.Input;
 using MyPeopleApp.Interfaces;
 using MyPeopleApp.Services;
-using System.Windows;
 
 namespace MyPeopleApp.ViewModels
 {
@@ -157,7 +156,7 @@ namespace MyPeopleApp.ViewModels
                 if (_buttonStatusCommand == null)
                 {
                     _buttonStatusCommand = new RelayCommand(
-                        param => ButtonStatusCommand()
+                        param => RowSelectionCommand()
                     );
                 }
                 return _buttonStatusCommand;
@@ -178,20 +177,23 @@ namespace MyPeopleApp.ViewModels
                 return _TextChangeCommand;
             }
         }
-        private void ButtonStatusCommand()
+        private void RowSelectionCommand()
         {
-            IsEnableEditButton = false;
+            IsEnableEditButton = true;
             IsEnableSaveButton = false;
         }
         private void TextChangeCommand()
         {
-            IsEnableEditButton = true;
-            IsEnableSaveButton = false;
+            //IsEnableEditButton = true;
+            //IsEnableSaveButton = false;
         }
 
         private void ButtonStatusClearTextBox()
         {
             GetDataFromXml();
+
+            IsEnableEditButton = false;
+            IsEnableSaveButton = true;
         }
         private void SaveData()
         {
@@ -216,14 +218,17 @@ namespace MyPeopleApp.ViewModels
         {
             _dataservices.EditData(SelectedPerson);
             GetDataFromXml();
+
             IsEnableEditButton = false;
-            IsEnableSaveButton = true;
+
         }
 
         private void DeleteData()
         {
             _dataservices.DeleteData(SelectedPerson.Id);
             GetDataFromXml();
+            IsEnableEditButton = false;
+            IsEnableSaveButton = true;
         }
 
         #endregion

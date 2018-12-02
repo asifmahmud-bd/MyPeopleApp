@@ -33,10 +33,10 @@
                     <DataGridTextColumn Header="House no." Binding="{Binding HouseNumber}"/>
                     <DataGridTextColumn Header="Apt. no" Binding="{Binding ApartmentNumber}"/>
                     <DataGridTextColumn Header="Postal code" Binding="{Binding PostalCode}"/>
-                    <DataGridTextColumn Header="Phone number" Binding="{Binding PhoneNumber}"/>
-                    <DataGridTextColumn Header="Birthdate" Binding="{Binding DayOfBirth, StringFormat={}{0:dd- MMM-yyyy}}"/>
+                    <DataGridTextColumn Header="Phone no" Binding="{Binding PhoneNumber}"/>
+                    <DataGridTextColumn Header="Birthdaty" Binding="{Binding DayOfBirth, StringFormat={}{0:dd- MMM-yyyy}}"/>
                     <DataGridTextColumn Header="Age" Binding="{Binding Age}"/>
-                    <DataGridTemplateColumn>
+                    <DataGridTemplateColumn IsReadOnly="True" Selector.IsSelected="False">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate DataType="local:vn">
                                 <Button  Content="Delete" Command="{Binding Path=DataContext.DeleteCommand, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" CommandParameter="{Binding}" />
@@ -81,11 +81,11 @@
                 <TextBlock Grid.Row="8" Grid.Column="0" Margin="5" Text="{Binding ElementName=PeoplesGrid, Path=Columns[8].Header}"/>
 
                 <TextBox Grid.Row="0" Grid.Column="1" Margin="3" Text="{Binding SelectedPerson.FirstName, Mode=TwoWay}" Name="firstName">
-                    <!--<i:Interaction.Triggers>
-                        <i:EventTrigger EventName="TextChanged">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="TextChanged" >
                             <i:InvokeCommandAction Command="{Binding TextChangedCommand}"/>
                         </i:EventTrigger>
-                    </i:Interaction.Triggers>-->
+                    </i:Interaction.Triggers>
                 </TextBox>
                 <TextBox Grid.Row="1" Grid.Column="1" Margin="3" Text="{Binding SelectedPerson.LastName, Mode=TwoWay}" Name="lastName"/>
                 <TextBox Grid.Row="2" Grid.Column="1" Margin="3" Text="{Binding SelectedPerson.StreetName, Mode=TwoWay}" Name="streetName"/>
