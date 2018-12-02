@@ -1,0 +1,111 @@
+﻿<Window x:Class="MyPeopleApp.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+        xmlns:local="clr-namespace:MyPeopleApp.Views"
+        xmlns:viewmodel="clr-namespace:MyPeopleApp.ViewModels"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="1000" WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize" Background="#FFE0E0E0">
+    <Window.Resources>
+        <viewmodel:MainWindowViewModel x:Key="vm"/>
+        <Style TargetType="DataGrid">
+            <Setter Property="AutoGenerateColumns" Value="False"/>
+            <Setter Property="CanUserAddRows" Value="False"/>
+            <Setter Property="CanUserDeleteRows" Value="False"/>
+        </Style>
+        <!-- Is Emty-->
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    </Window.Resources>
+
+    <Grid DataContext="{Binding Source={StaticResource vm}}" >
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2.5*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Border Grid.Column="0" BorderThickness="1" Margin="20" CornerRadius="10" BorderBrush="LightBlue">
+            <DataGrid x:Name="PeoplesGrid" ItemsSource="{Binding Peoples}" SelectedItem="{Binding SelectedPerson, Mode=TwoWay}" Margin="5">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="First name" Binding="{Binding FirstName}"/>
+                    <DataGridTextColumn Header="Last name" Binding="{Binding LastName}"/>
+                    <DataGridTextColumn Header="Str. name" Binding="{Binding StreetName}"/>
+                    <DataGridTextColumn Header="House no." Binding="{Binding HouseNumber}"/>
+                    <DataGridTextColumn Header="Apt. no" Binding="{Binding ApartmentNumber}"/>
+                    <DataGridTextColumn Header="Postal code" Binding="{Binding PostalCode}"/>
+                    <DataGridTextColumn Header="Phone number" Binding="{Binding PhoneNumber}"/>
+                    <DataGridTextColumn Header="Birthdate" Binding="{Binding DayOfBirth, StringFormat={}{0:dd- MMM-yyyy}}"/>
+                    <DataGridTextColumn Header="Age" Binding="{Binding Age}"/>
+                    <DataGridTemplateColumn>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate DataType="local:vn">
+                                <Button  Content="Delete" Command="{Binding Path=DataContext.DeleteCommand, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" CommandParameter="{Binding}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="SelectionChanged">
+                        <i:InvokeCommandAction Command="{Binding GridSelectionChangedCommand}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </DataGrid>
+        </Border>
+        <Border Grid.Column="1" BorderThickness="1" Margin="0 30 30 30" CornerRadius="10" BorderBrush="LightBlue">
+            <Grid Margin="5">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Row="0" Grid.Column="0" Margin="5" Text="{Binding ElementName=PeoplesGrid, Path=Columns[0].Header}"/>
+                <TextBlock Grid.Row="1" Grid.Column="0" Margin="5" Text="{Binding ElementName=PeoplesGrid, Path=Columns[1].Header}"/>
+                <TextBlock Grid.Row="2" Grid.Column="0" Margin="5" Text="{Binding ElementName=PeoplesGrid, Path=Columns[2].Header}"/>
+                <TextBlock Grid.Row="3" Grid.Column="0" Margin="5" Text="{Binding ElementName=PeoplesGrid, Path=Columns[3].Header}"/>
+                <TextBlock Grid.Row="4" Grid.Column="0" Margin="5" Text="{Binding ElementName=PeoplesGrid, Path=Columns[4].Header}"/>
+                <TextBlock Grid.Row="5" Grid.Column="0" Margin="5" Text="{Binding ElementName=PeoplesGrid, Path=Columns[5].Header}"/>
+                <TextBlock Grid.Row="6" Grid.Column="0" Margin="5" Text="{Binding ElementName=PeoplesGrid, Path=Columns[6].Header}"/>
+                <TextBlock Grid.Row="7" Grid.Column="0" Margin="5" Text="{Binding ElementName=PeoplesGrid, Path=Columns[7].Header}"/>
+                <TextBlock Grid.Row="8" Grid.Column="0" Margin="5" Text="{Binding ElementName=PeoplesGrid, Path=Columns[8].Header}"/>
+
+                <TextBox Grid.Row="0" Grid.Column="1" Margin="3" Text="{Binding SelectedPerson.FirstName, Mode=TwoWay}" Name="firstName">
+                    <!--<i:Interaction.Triggers>
+                        <i:EventTrigger EventName="TextChanged">
+                            <i:InvokeCommandAction Command="{Binding TextChangedCommand}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>-->
+                </TextBox>
+                <TextBox Grid.Row="1" Grid.Column="1" Margin="3" Text="{Binding SelectedPerson.LastName, Mode=TwoWay}" Name="lastName"/>
+                <TextBox Grid.Row="2" Grid.Column="1" Margin="3" Text="{Binding SelectedPerson.StreetName, Mode=TwoWay}" Name="streetName"/>
+                <TextBox Grid.Row="3" Grid.Column="1" Margin="3" Text="{Binding SelectedPerson.HouseNumber, Mode=TwoWay}" Name="houseNo"/>
+                <TextBox Grid.Row="4" Grid.Column="1" Margin="3" Text="{Binding SelectedPerson.ApartmentNumber, Mode=TwoWay}" Name="apartmentNo"/>
+                <TextBox Grid.Row="5" Grid.Column="1" Margin="3" Text="{Binding SelectedPerson.PostalCode, Mode=TwoWay}" Name="postalCode"/>
+                <TextBox Grid.Row="6" Grid.Column="1" Margin="3" Text="{Binding SelectedPerson.PhoneNumber, Mode=TwoWay}"  Name="phoneNumber"/>
+                <DatePicker Grid.Row="7" Grid.Column="1" Margin="3" Text="{Binding SelectedPerson.DayOfBirth, Mode=TwoWay}" Name="dayOfBirth"/>
+                <TextBox Grid.Row="8" Grid.Column="1" Margin="3" Text="{Binding Age, Mode=TwoWay}" IsEnabled="False" Name="age"/>
+                <Border Grid.Row="9" Grid.ColumnSpan="2" Background="LightGray" BorderBrush="Black" Margin="3" 
+                    BorderThickness="1">
+                    <DockPanel>
+                        <DockPanel  HorizontalAlignment="Center">
+                            <Button Margin="5" Padding="10,0,10,0" Content="Cancel" Click="Button_CancelClick" Command="{Binding CancelCommand}"/>
+                            <Button Margin="5" Padding="10,0,10,0" Content="Update" Command="{Binding EditCommand}"  IsEnabled="{Binding IsEnableEditButton, Mode=TwoWay}" Name="btnEdit" />
+                            <Button Margin="5" Padding="10,0,10,0" Content="Save" Command="{Binding SaveCommand}" IsEnabled="{Binding IsEnableSaveButton}" Name="btnSave"/>
+                        </DockPanel>
+                    </DockPanel>
+                </Border>
+            </Grid>
+        </Border>
+    </Grid>
+</Window>
